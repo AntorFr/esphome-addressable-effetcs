@@ -23,13 +23,13 @@ class AddressableStarsEffect : public AddressableLightEffect {
   }
   
   void apply(AddressableLight &it, const Color &current_color) override {
-    for (auto view : it) {
-        if (view.get_effect_data()==0 && random16(60*this->stars_probability_)==0){
+    for (auto view : it) {     
+        if (view.get_effect_data()==0 && (random_float() < this->stars_probability_)){
              view.set_effect_data(255);
         } 
         if (view.get_effect_data() > 0) {
             float intensit = -1*pow(view.get_effect_data()/180.1,2);
-            view = Color(current_color * exp(intensit))
+            view = Color(current_color * exp(intensit));
         } else {
             view = CRGB::Black;
         }
@@ -39,10 +39,10 @@ class AddressableStarsEffect : public AddressableLightEffect {
     it.schedule_show();
   }
 
-  void set_stars_probability(uint8_t stars_probability) { this->stars_probability_ = stars_probability; }
+  void set_stars_probability(float stars_probability) { this->stars_probability_ = stars_probability; }
 
  protected:
-  uint8_t stars_probability_{100};
+  float stars_probability_{};
 
 
 };

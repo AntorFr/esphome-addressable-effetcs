@@ -19,7 +19,7 @@ CONFIG_SCHEMA = cv.All(cv.Schema({}), cv.only_with_arduino)
     AddressableStarsEffect,
     "Stars",
     {
-        cv.Optional(CONF_STARS_PROBABILITY, default=100): cv.uint8_t,
+        cv.Optional(CONF_STARS_PROBABILITY, default=0.1%): cv.percentage,
     },
 )
 async def addressable_stars_effect_to_code(config, effect_id):
