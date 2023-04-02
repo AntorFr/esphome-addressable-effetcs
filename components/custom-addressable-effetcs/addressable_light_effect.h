@@ -31,10 +31,14 @@ class AddressableStarsEffect : public AddressableLightEffect {
             float intensit = -1*pow(view.get_effect_data()/180.1,2);
             view = Color(current_color * exp(intensit));
         } else {
-            view = CRGB::Black;
+            view = Color::BLACK;
         }
-        if (view.get_effect_data()%2 == 1) {view.set_effect_data(view.get_effect_data()>2)?view.get_effect_data()-2:2;}
-        else if (view.get_effect_data() > 0) {view.set_effect_data(view.get_effect_data()<=254)?view.get_effect_data()+2:0;}
+        if (view.get_effect_data()%2 == 1) {
+          view.set_effect_data((view.get_effect_data()>2)?view.get_effect_data()-2:2);
+        }
+        else if (view.get_effect_data() > 0) {
+          view.set_effect_data((view.get_effect_data()<=254)?view.get_effect_data()+2:0);
+        }
     }
     it.schedule_show();
   }
