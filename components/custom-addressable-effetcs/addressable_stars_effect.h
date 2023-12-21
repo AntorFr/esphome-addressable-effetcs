@@ -25,7 +25,7 @@ class AddressableStarsEffect : public AddressableLightEffect {
   
   void apply(AddressableLight &it, const Color &current_color) override {
     for (auto view : it) {     
-        if (view.get_effect_data()==0 && (random_float() * 100 < this->stars_probability_)){
+        if (view.get_effect_data()==0 && (random_float() * 500 < this->stars_probability_)){
               view.set_effect_data(255);
         } 
         if (view.get_effect_data() > 0) {
@@ -50,7 +50,7 @@ class AddressableStarsEffect : public AddressableLightEffect {
   void set_stars_probability(float stars_probability) { this->stars_probability_ = stars_probability; }
 
  protected:
-  float stars_probability_{};
+  float stars_probability_{0.3};
 
 
 };
