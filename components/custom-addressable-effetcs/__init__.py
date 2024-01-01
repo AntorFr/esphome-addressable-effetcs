@@ -10,8 +10,15 @@ from esphome.const import (
     CONF_GREEN,
     CONF_BLUE,
     CONF_WHITE,
+    CONF_NAME,
+    CONF_BRIGHTNESS,
+    CONF_RED,
+    CONF_GREEN,
+    CONF_BLUE,
+    CONF_WHITE,
 )
 
+CONF_COLOR = "color"
 CONF_COLOR = "color"
 CONF_STARS_PROBABILITY = "stars_probability"
 CONF_CHRISTMASS_BIT_SIZE = "bit_size"
@@ -20,7 +27,9 @@ CONF_CHRISTMASS_BLANK_SIZE = "blank_size"
 light_ns = cg.esphome_ns.namespace("light")
 AddressableStarsEffect = light_ns.class_("AddressableStarsEffect", AddressableLightEffect)
 AddressableColorStarsEffectColor = light_ns.struct("AddressableColorStarsEffectColor")
+AddressableColorStarsEffectColor = light_ns.struct("AddressableColorStarsEffectColor")
 AddressableChristmasEffect = light_ns.class_("AddressableChristmasEffect", AddressableLightEffect)
+
 
 
 CONFIG_SCHEMA = cv.All(cv.Schema({}), cv.only_with_arduino)
@@ -31,6 +40,17 @@ CONFIG_SCHEMA = cv.All(cv.Schema({}), cv.only_with_arduino)
     "Stars",
     {
         cv.Optional(CONF_STARS_PROBABILITY, default="10%"): cv.percentage,
+        cv.Optional(
+            CONF_COLOR, default=[{CONF_BRIGHTNESS: 0.0}],
+        ): cv.ensure_list(
+            {
+                cv.Optional(CONF_BRIGHTNESS, default=1.0): cv.percentage,
+                cv.Optional(CONF_RED, default=0): cv.percentage,
+                cv.Optional(CONF_GREEN, default=0): cv.percentage,
+                cv.Optional(CONF_BLUE, default=0): cv.percentage,
+                cv.Optional(CONF_WHITE, default=0): cv.percentage,
+            }
+           ),
         cv.Optional(
             CONF_COLOR, default=[{CONF_BRIGHTNESS: 0.0}],
         ): cv.ensure_list(
