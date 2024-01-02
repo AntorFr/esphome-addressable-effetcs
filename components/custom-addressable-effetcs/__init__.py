@@ -47,7 +47,7 @@ CONFIG_SCHEMA = cv.All(cv.Schema({}), cv.only_with_arduino)
     {
         cv.Optional(CONF_STARS_PROBABILITY, default="10%"): cv.percentage,
         cv.Optional(
-            CONF_COLOR, default=[{CONF_BRIGHTNESS: 0.0}],
+            CONF_COLOR, default={CONF_BRIGHTNESS: 0.0,},
         ): cv.Schema(
             {
                 cv.Optional(CONF_BRIGHTNESS, default=1.0): cv.percentage,
