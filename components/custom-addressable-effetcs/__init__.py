@@ -49,10 +49,10 @@ CONFIG_SCHEMA = cv.All(cv.Schema({}), cv.only_with_arduino)
             CONF_COLOR, default={CONF_RED: 0.0,CONF_GREEN: 0.0, CONF_BLUE:0.0},
         ): cv.Schema(
             {
-                cv.Exclusive(CONF_RED, "red"): cv.percentage,
-                cv.Exclusive(CONF_GREEN, "green"): cv.percentage,
-                cv.Exclusive(CONF_BLUE, "blue"): cv.percentage,
-                cv.Exclusive(CONF_WHITE, "white"): cv.percentage,
+                cv.Optional(CONF_RED, default=0): cv.percentage,
+                cv.Optional(CONF_GREEN, default=0): cv.percentage,
+                cv.Optional(CONF_BLUE, default=0): cv.percentage,
+                cv.Optional(CONF_WHITE, default=0): cv.percentage,
             }
            ),
     },
