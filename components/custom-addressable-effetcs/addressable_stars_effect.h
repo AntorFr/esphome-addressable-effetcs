@@ -14,11 +14,6 @@
 namespace esphome {
 namespace light {
 
-struct AddressableColorStarsEffectColor {
-  uint8_t r, g, b, w;
-  uint8_t brightness;
-};
-
 class AddressableStarsEffect : public AddressableLightEffect {
  public:
   explicit AddressableStarsEffect(const std::string &name) : AddressableLightEffect(name) {}
@@ -26,17 +21,11 @@ class AddressableStarsEffect : public AddressableLightEffect {
     auto &it = *this->get_addressable_();
     it.all() = Color::BLACK;
     it.schedule_show(); 
-
-    auto r = this->color_effect_.r * this->color_effect_.brightness /100;
-    auto g = this->color_effect_.g * this->color_effect_.brightness /100;
-    auto b = this->color_effect_.b * this->color_effect_.brightness /100;
-    auto w = this->color_effect_.w * this->color_effect_.brightness /100;  
-    this->color_ = Color(r, g, b, w);
   }
   
   void apply(AddressableLight &it, const Color &current_color) override {
     for (auto view : it) {     
-        Color effect_color = (this->color_ == Color::BLACK ? current_color : this->color_);
+        Color effect_color = (this->color_.is_on() ? this->color_ : current_color);
 
         if (view.get_effect_data()==0 && (random_float() * 500 < this->stars_probability_)){
               view.set_effect_data(255);
@@ -61,11 +50,10 @@ class AddressableStarsEffect : public AddressableLightEffect {
   }
 
   void set_stars_probability(float stars_probability) { this->stars_probability_ = stars_probability; }
-  void set_color(const AddressableColorStarsEffectColor &color) { this->color_effect_ = color; }
+  void set_color(color color) { this->color_ = color; }
 
  protected:
   float stars_probability_{0.3};
-  AddressableColorStarsEffectColor color_effect_;
   Color color_;
 
 };

@@ -25,16 +25,15 @@ from esphome.const import (
 )
 
 CONF_COLOR = "color"
-CONF_COLOR = "color"
-CONF_COLOR = "color"
+
 CONF_STARS_PROBABILITY = "stars_probability"
 CONF_CHRISTMASS_BIT_SIZE = "bit_size"
 CONF_CHRISTMASS_BLANK_SIZE = "blank_size"
 
 light_ns = cg.esphome_ns.namespace("light")
 AddressableStarsEffect = light_ns.class_("AddressableStarsEffect", AddressableLightEffect)
-AddressableColorStarsEffectColor = light_ns.struct("AddressableColorStarsEffectColor")
-AddressableColorStarsEffectColor = light_ns.struct("AddressableColorStarsEffectColor")
+ColorStruct = cg.esphome_ns.struct("Color")
+
 AddressableChristmasEffect = light_ns.class_("AddressableChristmasEffect", AddressableLightEffect)
 
 
@@ -47,14 +46,13 @@ CONFIG_SCHEMA = cv.All(cv.Schema({}), cv.only_with_arduino)
     {
         cv.Optional(CONF_STARS_PROBABILITY, default="10%"): cv.percentage,
         cv.Optional(
-            CONF_COLOR, default={CONF_BRIGHTNESS: 0.0,},
+            CONF_COLOR, default={CONF_RED: 0.0,CONF_GREEN: 0.0, CONF_BLUE:0.0},
         ): cv.Schema(
             {
-                cv.Optional(CONF_BRIGHTNESS, default=1.0): cv.percentage,
-                cv.Optional(CONF_RED, default=0): cv.percentage,
-                cv.Optional(CONF_GREEN, default=0): cv.percentage,
-                cv.Optional(CONF_BLUE, default=0): cv.percentage,
-                cv.Optional(CONF_WHITE, default=0): cv.percentage,
+                cv.Exclusive(CONF_RED, "red"): cv.percentage,
+                cv.Exclusive(CONF_GREEN, "green"): cv.percentage,
+                cv.Exclusive(CONF_BLUE, "blue"): cv.percentage,
+                cv.Exclusive(CONF_WHITE, "white"): cv.percentage,
             }
            ),
     },
@@ -64,12 +62,11 @@ async def addressable_stars_effect_to_code(config, effect_id):
     cg.add(var.set_stars_probability(config[CONF_STARS_PROBABILITY]))
     color_conf = config[CONF_COLOR]
     color = cg.StructInitializer(
-                AddressableColorStarsEffectColor,
+                ColorStruct,
                 ("r", int(round(color_conf[CONF_RED] * 255))),
                 ("g", int(round(color_conf[CONF_GREEN] * 255))),
                 ("b", int(round(color_conf[CONF_BLUE] * 255))),
                 ("w", int(round(color_conf[CONF_WHITE] * 255))),
-                ("brightness", int(round(color_conf[CONF_BRIGHTNESS] * 100))),
             )
     cg.add(var.set_color(color))
     return var
