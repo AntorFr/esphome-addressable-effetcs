@@ -86,7 +86,7 @@ CONFIG_SCHEMA = cv.All(cv.Schema({}), cv.only_with_arduino)
 async def addressable_stars_effect_to_code(config, effect_id):
     var = cg.new_Pvariable(effect_id, config[CONF_NAME])
     cg.add(var.set_stars_probability(config[CONF_STARS_PROBABILITY]))
-    color_conf = config.get(CONF_COLOR)
+    color_conf = config[CONF_COLOR]
     color = cg.StructInitializer(
                 AddressableColorStarsEffectColor,
                 ("r", int(round(color_conf[CONF_RED] * 255))),
