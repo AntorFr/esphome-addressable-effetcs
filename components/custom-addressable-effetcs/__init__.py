@@ -38,8 +38,6 @@ AddressableColorStarsEffectColor = light_ns.struct("AddressableColorStarsEffectC
 AddressableChristmasEffect = light_ns.class_("AddressableChristmasEffect", AddressableLightEffect)
 
 
-
-
 CONFIG_SCHEMA = cv.All(cv.Schema({}), cv.only_with_arduino)
 
 @register_addressable_effect(
@@ -50,29 +48,7 @@ CONFIG_SCHEMA = cv.All(cv.Schema({}), cv.only_with_arduino)
         cv.Optional(CONF_STARS_PROBABILITY, default="10%"): cv.percentage,
         cv.Optional(
             CONF_COLOR, default=[{CONF_BRIGHTNESS: 0.0}],
-        ): cv.ensure_list(
-            {
-                cv.Optional(CONF_BRIGHTNESS, default=1.0): cv.percentage,
-                cv.Optional(CONF_RED, default=0): cv.percentage,
-                cv.Optional(CONF_GREEN, default=0): cv.percentage,
-                cv.Optional(CONF_BLUE, default=0): cv.percentage,
-                cv.Optional(CONF_WHITE, default=0): cv.percentage,
-            }
-           ),
-        cv.Optional(
-            CONF_COLOR, default=[{CONF_BRIGHTNESS: 0.0}],
-        ): cv.ensure_list(
-            {
-                cv.Optional(CONF_BRIGHTNESS, default=1.0): cv.percentage,
-                cv.Optional(CONF_RED, default=0): cv.percentage,
-                cv.Optional(CONF_GREEN, default=0): cv.percentage,
-                cv.Optional(CONF_BLUE, default=0): cv.percentage,
-                cv.Optional(CONF_WHITE, default=0): cv.percentage,
-            }
-           ),
-        cv.Optional(
-            CONF_COLOR, default=[{CONF_BRIGHTNESS: 0.0}],
-        ): cv.ensure_list(
+        ): cv.Schema(
             {
                 cv.Optional(CONF_BRIGHTNESS, default=1.0): cv.percentage,
                 cv.Optional(CONF_RED, default=0): cv.percentage,
