@@ -51,48 +51,6 @@ uint8_t static attackDecayWave8( uint8_t i)
   }
 }
 
-class AddressableStarsEffect : public AddressableLightEffect {
- public:
-  explicit AddressableStarsEffect(const std::string &name) : AddressableLightEffect(name) {}
-  void start() override {
-    auto &it = *this->get_addressable_();
-    it.all() = Color::BLACK;
-  }
-  
-  void apply(AddressableLight &it, const Color &current_color) override {
-    const uint32_t now = millis();
-    uint8_t pos_add = 0;
-    if (now - this->last_progress_ > this->progress_interval_) {
-      const uint32_t pos_add32 = (now - this->last_progress_) / this->progress_interval_;
-      pos_add = pos_add32;
-      this->last_progress_ += pos_add32 * this->progress_interval_;
-    }
-    for (auto view : it) {     
-        if (view.get_effect_data()==0 && (random_float() < this->stars_probability_)){
-             view.set_effect_data(255);
-        } 
-        if (view.get_effect_data() > 0) {
-            float intensit = -1*pow(view.get_effect_data()/180.1,2);
-            view = Color(current_color * exp(intensit));
-        } else {
-            view = Color::BLACK;
-        }
-        if (view.get_effect_data()%2 == 1) {
-          view.set_effect_data((view.get_effect_data()>2)?view.get_effect_data()-2:2);
-        }
-        else if (view.get_effect_data() > 0) {
-          view.set_effect_data((view.get_effect_data()<=254)?view.get_effect_data()+2:0);
-        }
-    }
-    it.schedule_show();
-  }
-
-  void set_stars_probability(float stars_probability) { this->stars_probability_ = stars_probability; }
-  void set_fps(uint8_t fps) { this->fps_ = fps; }
-
- protected:
-  float stars_probability_{0.05f};
-  uint8_t fps_{};
 
 class AddressableTwinkleFoxEffect : public AddressableLightEffect {
  public:
@@ -115,6 +73,8 @@ class AddressableTwinkleFoxEffect : public AddressableLightEffect {
   bool autoBGColor_;
   bool coolLikeIncandescent_;
   CRGBPalette16 gCurrentPalette;
+
+};
 
 class AddressableTwinkle2Effect : public AddressableLightEffect {
  public:
