@@ -57,6 +57,7 @@ class AddressableStarsEffect : public AddressableLightEffect {
   void start() override {
     auto &it = *this->get_addressable_();
     it.all() = Color::BLACK;
+    it.schedule_show(); 
   }
   
   void apply(AddressableLight &it, const Color &current_color) override {
@@ -68,12 +69,17 @@ class AddressableStarsEffect : public AddressableLightEffect {
       this->last_progress_ += pos_add32 * this->progress_interval_;
     }
     for (auto view : it) {     
-        if (view.get_effect_data()==0 && (random_float() < this->stars_probability_)){
-             view.set_effect_data(255);
+        Color effect_color = (this->color_.is_on() ? this->color_ : current_color);
+
+        if (view.get_effect_data()==0 && (random_float() * 500 < this->stars_probability_)){
+              view.set_effect_data(255);
         } 
         if (view.get_effect_data() > 0) {
             float intensit = -1*pow(view.get_effect_data()/180.1,2);
-            view = Color(current_color * exp(intensit));
+            view = Color(effect_color.r * exp(intensit),
+                         effect_color.g * exp(intensit),
+                         effect_color.b * exp(intensit),
+                         effect_color.w * exp(intensit));
         } else {
             view = Color::BLACK;
         }
@@ -88,6 +94,7 @@ class AddressableStarsEffect : public AddressableLightEffect {
   }
 
   void set_stars_probability(float stars_probability) { this->stars_probability_ = stars_probability; }
+<<<<<<< HEAD:components/custom-addressable-effetcs/addressable_light_effect.h
   void set_fps(uint8_t fps) { this->fps_ = fps; }
 
  protected:
@@ -143,6 +150,13 @@ class AddressableTwinkle2Effect : public AddressableLightEffect {
   uint8_t*  _directionFlags;
   CRGBPalette16 gCurrentPalette;
   enum { GETTING_DARKER = 0, GETTING_BRIGHTER = 1 };
+=======
+  void set_color(const Color &color) { this->color_ = color; }
+
+ protected:
+  float stars_probability_{0.3};
+  Color color_;
+>>>>>>> 4fc7341afe51691c2a337688e3b71bdd37a7d66f:components/custom-addressable-effetcs/addressable_stars_effect.h
 
 };
 
