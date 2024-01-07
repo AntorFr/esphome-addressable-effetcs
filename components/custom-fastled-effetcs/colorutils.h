@@ -7,6 +7,9 @@
 
 namespace esphome {
 namespace light {
+
+typedef uint32_t TProgmemColorPalette16[16];
+
 /// RGB color palette with 16 discrete values
 class ColorPalette16 {
 public:
@@ -223,7 +226,6 @@ public:
     }
 
 };
-
 
 }  // namespace light
 }  // namespace esphome
