@@ -24,7 +24,7 @@ ColorStruct = cg.esphome_ns.struct("Color")
 AddressableChristmasEffect = light_ns.class_("AddressableChristmasEffect", AddressableLightEffect)
 
 
-CONFIG_SCHEMA = cv.All(cv.Schema({}), cv.only_with_arduino)
+CONFIG_SCHEMA = cv.All(cv.Schema({}))
 
 @register_addressable_effect(
     "addressable_stars",
