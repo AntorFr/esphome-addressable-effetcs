@@ -14,6 +14,10 @@
 namespace esphome {
 namespace light {
 
+struct AddressableColorStarsEffectColor {
+    uint8_t r, g, b, w;
+};
+
 class AddressableStarsEffect : public AddressableLightEffect {
  public:
   explicit AddressableStarsEffect(const std::string &name) : AddressableLightEffect(name) {}
@@ -50,7 +54,7 @@ class AddressableStarsEffect : public AddressableLightEffect {
   }
 
   void set_stars_probability(float stars_probability) { this->stars_probability_ = stars_probability; }
-  void set_color(const Color &color) { this->color_ = color; }
+  void set_color(const AddressableColorStarsEffectColor &color) { this->color_ = Color(color.r, color.g, color.b, color.w); }
 
  protected:
   float stars_probability_{0.3};

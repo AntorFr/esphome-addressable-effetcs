@@ -19,7 +19,9 @@ CONF_CHRISTMASS_BLANK_SIZE = "blank_size"
 
 light_ns = cg.esphome_ns.namespace("light")
 AddressableStarsEffect = light_ns.class_("AddressableStarsEffect", AddressableLightEffect)
+
 ColorStruct = cg.esphome_ns.struct("Color")
+AddressableColorStarsEffectColor = light_ns.struct("AddressableColorStarsEffectColor")
 
 AddressableChristmasEffect = light_ns.class_("AddressableChristmasEffect", AddressableLightEffect)
 
@@ -49,7 +51,7 @@ async def addressable_stars_effect_to_code(config, effect_id):
     cg.add(var.set_stars_probability(config[CONF_STARS_PROBABILITY]))
     color_conf = config[CONF_COLOR]
     color = cg.StructInitializer(
-                ColorStruct,
+                AddressableColorStarsEffectColor,
                 ("r", int(round(color_conf[CONF_RED] * 255))),
                 ("g", int(round(color_conf[CONF_GREEN] * 255))),
                 ("b", int(round(color_conf[CONF_BLUE] * 255))),
